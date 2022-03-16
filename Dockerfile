@@ -27,5 +27,10 @@ RUN conda install -y pytorch=0.4.1 torchvision cuda91 -c pytorch
 RUN conda install -y -c anaconda pip 
 RUN conda install -y -c menpo opencv3
 RUN pip install scikit-umfpack
-RUN pip install cupy-cuda91
+RUN pip install cupy-cuda114
 RUN pip install pynvrtc
+
+RUN mkdir -p /app/fast
+ADD . /app/fast
+
+WORKDIR /app/fast

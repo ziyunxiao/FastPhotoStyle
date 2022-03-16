@@ -1,0 +1,6 @@
+scikit-umfpack
+setuptools
+cupy
+pynvrtc
+opencv-python
+scipy==1.2.2

@@ -1,0 +1,28 @@
+
+version: "3.8"
+
+# this file is used for testing
+# docker-compose up 
+
+# volumes:
+#   postgres_data01:
+#     driver: convoy
+#     #external: true
+
+# networks:
+#   traefik-public:
+#     external: true
+
+services:
+  fast:
+    build: 
+      context: .
+      dockerfile: ./Dockerfile
+    image: fast-photo-style:1.0
+    command: ["tail", "-f", "/dev/null"]
+    volumes:
+      - ./:/app/fast/
+    # ports:
+    #   - 8080:3838
+    # networks:
+    #   - traefik-public

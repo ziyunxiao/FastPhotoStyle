@@ -14,7 +14,7 @@ import torch.nn as nn
 from smooth_filter import smooth_filter
 from process_stylization import Timer, memory_limit_image_resize
 from scipy.io import loadmat
-colors = loadmat('segmentation/data/color150.mat')['colors']
+colors = loadmat('./data/color150.mat')['colors']
 
 
 def overlay(img, pred_color, blend_factor=0.4):
@@ -149,9 +149,13 @@ def stylization(stylization_module, smoothing_module, content_image_path, style_
         styl_img = transforms.ToTensor()(styl_img).unsqueeze(0)
 
         if cuda:
-            cont_img = cont_img.cuda(0)
-            styl_img = styl_img.cuda(0)
-            stylization_module.cuda(0)
+            # cont_img = cont_img.cuda(0)
+            # styl_img = styl_img.cuda(0)
+            # stylization_module.cuda(0)
+            cont_img = cont_img.to("cuda")
+            styl_img = styl_img.to("cuda")
+            stylization_module.to("cuda")
+
 
         # cont_img = Variable(cont_img, volatile=True)
         # styl_img = Variable(styl_img, volatile=True)

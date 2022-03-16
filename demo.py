@@ -32,7 +32,8 @@ else:
     from photo_smooth import Propagator
     p_pro = Propagator()
 if args.cuda:
-    p_wct.cuda(0)
+    # p_wct.cuda(0)
+    p_wct.to("cuda")
 
 process_stylization.stylization(
     stylization_module=p_wct,

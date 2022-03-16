@@ -19,7 +19,17 @@
             "program": "demo.py",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["--cuda","1"]
+            "args": ["--cuda","1","--fast"]
+        },
+        {
+            "name": "demo_with_ade20k_ssn.py",
+            "type": "python",
+            "request": "launch",
+            "program": "demo_with_ade20k_ssn.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["--cuda","1"],
+            // "env": {"PYTHONPATH":"$PYTHONPATH:segmentation"},
         }
     ]
 }

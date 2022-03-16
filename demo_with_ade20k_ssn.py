@@ -9,14 +9,18 @@ import torch
 import process_stylization_ade20k_ssn
 from torch import nn
 from photo_wct import PhotoWCT
-from segmentation.dataset import round2nearest_multiple
-from segmentation.models import ModelBuilder, SegmentationModule
-from lib.nn import user_scattered_collate, async_copy_to
-from lib.utils import as_numpy, mark_volatile
-from scipy.misc import imread, imresize
+# from mit_semseg.dataset import round2nearest_multiple
+from mit_semseg.models import ModelBuilder, SegmentationModule
+from mit_semseg.lib.nn import user_scattered_collate, async_copy_to
+from mit_semseg.lib.utils import as_numpy, mark_volatile
+# from scipy.misc import imread, imresize
+from imageio import imread
 import cv2
 from torchvision import transforms
 import numpy as np
+
+def round2nearest_multiple(x, p):
+    return ((x - 1) // p + 1) * p
 
 parser = argparse.ArgumentParser(description='Photorealistic Image Stylization')
 parser.add_argument('--model_path', help='folder to model path', default='baseline-resnet50_dilated8-ppm_bilinear_deepsup')
@@ -53,8 +57,8 @@ segReMapping = process_stylization_ade20k_ssn.SegReMapping(args.label_mapping)
 SEG_NET_PATH = 'segmentation'
 args.weights_encoder = os.path.join(SEG_NET_PATH,args.model_path, 'encoder' + args.suffix)
 args.weights_decoder = os.path.join(SEG_NET_PATH,args.model_path, 'decoder' + args.suffix)
-args.arch_encoder = 'resnet50_dilated8'
-args.arch_decoder = 'ppm_bilinear_deepsup'
+args.arch_encoder = 'resnet50dilated'
+args.arch_decoder = 'ppm_deepsup'
 args.fc_dim = 2048
 
 # Load semantic segmentation network module
@@ -77,11 +81,12 @@ else:
     from photo_smooth import Propagator
     p_pro = Propagator()
 if args.cuda:
-    p_wct.cuda(0)
+    # p_wct.cuda(0)
+    p_wct.to("cuda")
 
 
 def segment_this_img(f):
-    img = imread(f, mode='RGB')
+    img = imread(f)
     img = img[:, :, ::-1]  # BGR to RGB!!!
     ori_height, ori_width, _ = img.shape
     img_resized_list = []

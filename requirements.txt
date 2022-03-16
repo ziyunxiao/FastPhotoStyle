@@ -3,4 +3,5 @@ setuptools
 cupy
 pynvrtc
 opencv-python
-scipy==1.2.2
+scipy
+opencv-contrib-python

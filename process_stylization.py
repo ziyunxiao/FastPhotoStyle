@@ -83,9 +83,13 @@ def stylization(stylization_module, smoothing_module, content_image_path, style_
         styl_img = transforms.ToTensor()(styl_img).unsqueeze(0)
 
         if cuda:
-            cont_img = cont_img.cuda(0)
-            styl_img = styl_img.cuda(0)
-            stylization_module.cuda(0)
+            # cont_img = cont_img.cuda(0)
+            # styl_img = styl_img.cuda(0)
+            # stylization_module.cuda(0)
+
+            cont_img = cont_img.to("cuda")
+            styl_img = styl_img.to("cuda")
+            stylization_module.to("cuda")
 
         # cont_img = Variable(cont_img, volatile=True)
         # styl_img = Variable(styl_img, volatile=True)

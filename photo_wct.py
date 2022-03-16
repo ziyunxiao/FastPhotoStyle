@@ -97,8 +97,10 @@ class PhotoWCT(nn.Module):
                 cont_indi = torch.LongTensor(cont_mask[0])
                 styl_indi = torch.LongTensor(styl_mask[0])
                 if self.is_cuda:
-                    cont_indi = cont_indi.cuda(0)
-                    styl_indi = styl_indi.cuda(0)
+                    # cont_indi = cont_indi.cuda(0)
+                    # styl_indi = styl_indi.cuda(0)
+                    cont_indi = cont_indi.to("cuda")
+                    styl_indi = styl_indi.to("cuda")
 
                 cFFG = torch.index_select(cont_feat_view, 1, cont_indi)
                 sFFG = torch.index_select(styl_feat_view, 1, styl_indi)
